@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const port = 3000;
+const port = 3005;
 const songsRoutes = require('./routes/songsRoutes')
 const serverError = require('./middlewares/server_error')
 const error_404 = require('./middlewares/not_found')

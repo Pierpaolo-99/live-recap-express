@@ -12,8 +12,15 @@ const songsData = require('../data/songsData');
  * @param {Object} res - The response object.
  */
 function index(req, res) {
-    res.json(songsData);
-}
+    let filteredSongs = songsData
+
+    if (req.query.genre){
+        filteredSongs = songsData.filter(song => song.genre.includes(req.query.genre))
+    }
+
+    res.json(filteredSongs)
+}   
+
 
 /**
  * Retrieves and sends details of a specific song by ID.
@@ -24,8 +31,11 @@ function index(req, res) {
  * @param {Object} res - The response object.
  */
 function show(req, res) {
-    const songId = req.params.id;
-    res.send(`show the song with id: ${songId}`);
+    const songId = Number(req.params.id);
+    
+    const song = songsData.find(song => song.id === songId)
+
+    res.json(song)
 }
 
 /**
