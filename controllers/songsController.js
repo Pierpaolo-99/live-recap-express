@@ -35,6 +35,16 @@ function show(req, res) {
     
     const song = songsData.find(song => song.id === songId)
 
+
+    if (!song){
+        res.status(404);
+
+        return res.json({
+            error: "Not Found",
+            message: "Song non trovata"
+        })
+    }
+
     res.json(song)
 }
 
@@ -83,8 +93,24 @@ function modify(req, res) {
  * @param {Object} res - The response object.
  */
 function destroy(req, res) {
-    const songId = req.params.id;
-    res.send(`delete the song with id: ${songId}`);
+    const songId = Number(req.params.id);
+    
+    const song = songsData.find(song => song.id === songId)
+
+    if (!song){
+        res.status(404);
+
+        return res.json({
+            error: "Not Found",
+            message: "Song non trovata"
+        })
+    }
+
+    songsData.splice(songsData.indexOf(song), 1)
+    
+    console.log(songsData);
+    
+    res.sendStatus(204)
 }
 
 module.exports = {
