@@ -55,7 +55,25 @@ function show(req, res) {
  * @param {Object} res - The response object.
  */
 function create(req, res) {
-    res.send('create a new song');
+
+    const newId = songsData[songsData.length - 1].id + 1
+
+    const newSong = {
+        id: newId,
+        title: req.body.title,
+        artist: req.body.artist,
+        album: req.body.album,
+        genre: req.body.genre,
+        duration: req.body.duration,
+        coverArt: req.body.coverArt
+    }
+
+    songsData.push(newSong)
+
+    console.log(songsData);
+
+    res.status(201);
+    res.json(newSong)
 }
 
 /**
@@ -67,8 +85,31 @@ function create(req, res) {
  * @param {Object} res - The response object.
  */
 function update(req, res) {
-    const songId = req.params.id;
-    res.send(`update the song with id: ${songId}`);
+
+    const songId = Number(req.params.id);
+    
+    const song = songsData.find(song => song.id === songId)
+
+
+    if (!song){
+        res.status(404);
+
+        return res.json({
+            error: "Not Found",
+            message: "Song non trovata"
+        })
+    }
+
+    song.title = req.body.title
+    song.album = req.body.album
+    song.artist = req.body.artist
+    song.genre = req.body.genre
+    song.duration = req.body.duration
+    song.coverArt = req.body.coverArt
+
+    console.log(songsData);
+
+    res.json(song)
 }
 
 /**
